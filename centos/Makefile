@@ -29,11 +29,9 @@ rhAsset:
 	$(call IMAGE_BUILD,$@,rh_asset,${ASSET},rh.${ASSET})
 
 rhAssetNewSource:
-	cp -rf ../../core-framework ./Dockerfiles/rhSharedLibrary/root/ && cd ./Dockerfiles/rhSharedLibrary/root/core-framework/redhawk/src && make distclean
 	$(call IMAGE_BUILD,$@,rh_asset,${ASSET},rh.${ASSET})
 
-componentHost: 
-	cp -rf ../../core-framework ./Dockerfiles/rhSharedLibrary/root/ && cd ./Dockerfiles/rhSharedLibrary/root/core-framework/redhawk/src && make distclean
+componentHost:
 	$(call IMAGE_BUILD,$@,this,$@,rh.$@)
 
 sharedRhAsset: checkCompHost
