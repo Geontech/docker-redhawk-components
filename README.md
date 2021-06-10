@@ -9,7 +9,7 @@ These changes to the spd file detailed above can be made to the spd file before 
 Images are built based on [docker-redhawk](https://github.com/Geontech/docker-redhawk) and [docker-redhawk-ubuntu](https://github.com/Geontech/docker-redhawk-ubuntu) projects. These base images pull down and bake individual RH components from GitHub into a new image designed to run that selected Component.
 
 # Pre-Built Images
-Prebuilt versions of several REDHAWK Component images are available on DockerHub that use the cpp implementation of components.
+Prebuilt versions of several REDHAWK Component images are available on DockerHub.
 * [HardLimit](https://hub.docker.com/repository/docker/geontech/rh.hardlimit)
 * [SigGen](https://hub.docker.com/repository/docker/geontech/rh.siggen)
 * [agc](https://hub.docker.com/repository/docker/geontech/rh.agc)
@@ -110,18 +110,13 @@ Make sure that you have GNU Radio installed so you can edit the *.grc flowgraph.
 sudo yum install -y gnuradio gnuradio-devel 
 ```
 
-And install `gr-redhawk-integration`.
+Git clone [gr-redhawk-integration].(https://github.com/Geontech/gr-redhawk_integration.git)
 
 ```bash
 sudo yum group install -y "Development Tools" && sudo yum install -y cmake cppunit cppunit-devel
-cd ~/path/to/screaminggoat_task1/sidecar/gnuradio-redhawk/gr-redhawk-integration
+cd gr-redhawk-integration
 ```
-Then follow to build directions for "Source of Package Manager Installations" from [gr-redhawk-integration](https://curiosity.office.geontech.com/screaming_goat/gr-redhawk_integration)
-```bash
-mkdir build && cd build
-cmake ../
-sudo make install
-```
+Then follow the build directions for "Source of Package Manager Installations" from [gr-redhawk-integration](https://curiosity.office.geontech.com/screaming_goat/gr-redhawk_integration)
 
 Open your *.grc file in gnuradio-companion and modify it to use `rh_source_bulkio` and `rh_sink_bulkio`
 ```bash

@@ -11,6 +11,14 @@ IMAGE_BUILD = docker build --rm \
 		./Dockerfiles && \
 		docker tag $(call lc,$4):$(VERSION) $(call lc,$4):latest
 
+IMAGE_BUILD_2 = docker build --rm \
+		-f ./Dockerfiles/$1.Dockerfile \
+		--build-arg repo_url="$2" \
+        --build-arg branch_or_tag="$3" \
+		-t $(call lc,$4):$(VERSION) \
+		. && \
+		docker tag $(call lc,$4):$(VERSION) $(call lc,$4):latest
+
 checkCompHost:
 	@if [ "`docker image ls | awk '{ print $$1 }' | grep componenthost`" = "" ]; then echo "A componenthost image does not exist please first run 'make componentHost'"; exit 1; fi
 
@@ -32,7 +40,7 @@ rhAssetNewSource:
 	$(call IMAGE_BUILD,$@,rh_asset,${ASSET},rh.${ASSET})
 
 componentHost:
-	$(call IMAGE_BUILD,$@,this,$@,rh.$@)
+	$(call IMAGE_BUILD_2,$@,${repo_url},${branch_or_tag},rh.$@)
 
 sharedRhAsset: checkCompHost
 	$(call IMAGE_BUILD,$@,shared_asset,${ASSET},sharedmakefile)

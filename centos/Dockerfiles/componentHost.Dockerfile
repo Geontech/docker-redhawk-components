@@ -10,10 +10,10 @@ WORKDIR /root/core-framework/redhawk/src
 RUN /bin/bash -lc "./build.sh"
     
 FROM geontech/redhawk-runtime as runner
-WORKDIR /root/rpms
 COPY --from=builder /root/core-framework /root/core-framework
 WORKDIR /etc/redhawk/logging
 COPY logrotate.redhawk /etc/redhawk/logging/
+COPY ComponentHost.spd.xml /var/redhawk/sdr/dom/mgr/rh/ComponentHost/ComponentHost.spd.xml
 RUN cp /root/core-framework/redhawk/src/testing/sdr/dom/mgr/logging.properties /etc/redhawk/logging
 WORKDIR /root/rpms
 RUN yum install -y automake libtool gcc-c++ boost-devel libuuid-devel numactl-devel log4cxx-devel yaml-cpp-devel && \
@@ -22,9 +22,11 @@ RUN yum install -y automake libtool gcc-c++ boost-devel libuuid-devel numactl-de
     cd /root/core-framework/redhawk/src/base/framework/idl && \
     /bin/bash -lc "make install" && \
     cd /root/core-framework/redhawk/src/control/sdr/ComponentHost && \
-    /bin/bash -lc "make install"
-COPY ComponentHost.spd.xml /var/redhawk/sdr/dom/mgr/rh/ComponentHost/ComponentHost.spd.xml
-RUN chown root:redhawk /var/redhawk/sdr/dom/mgr/rh/ComponentHost/ComponentHost.spd.xml && \
+    /bin/bash -lc "make install" && \
+    yum remove -y automake gcc-c++ && \
+    yum clean all && rm -rf /var/cache/yum && \
+    rm -rf /root/core-framework && \
+    chown root:redhawk /var/redhawk/sdr/dom/mgr/rh/ComponentHost/ComponentHost.spd.xml && \
     chmod 644 /var/redhawk/sdr/dom/mgr/rh/ComponentHost/ComponentHost.spd.xml
 
 # CMD ...run your sandboxed component
