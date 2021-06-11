@@ -10,23 +10,23 @@ Images are built based on [docker-redhawk](https://github.com/Geontech/docker-re
 
 # Pre-Built Images
 Prebuilt versions of several REDHAWK Component images are available on DockerHub.
-* [HardLimit](https://hub.docker.com/repository/docker/geontech/rh.hardlimit)
-* [SigGen](https://hub.docker.com/repository/docker/geontech/rh.siggen)
-* [agc](https://hub.docker.com/repository/docker/geontech/rh.agc)
-* [AmFmPmBasebandDemod](https://hub.docker.com/repository/docker/geontech/rh.amfmpmbasebanddemod)
-* [ArbitraryRateResampler](https://hub.docker.com/repository/docker/geontech/rh.arbitraryrateresampler)
-* [autocorrelate](https://hub.docker.com/repository/docker/geontech/rh.autocorrelate)
-* [fastfilter](https://hub.docker.com/repository/docker/geontech/rh.fastfilter)
-* [fcalc](https://hub.docker.com/repository/docker/geontech/rh.fcalc)
-* [FileWriter](https://hub.docker.com/repository/docker/geontech/rh.filewriter)
-* [psd](https://hub.docker.com/repository/docker/geontech/rh.psd)
-* [psk_soft](https://hub.docker.com/repository/docker/geontech/rh.psk_soft)
-* [RBDSDecoder](https://hub.docker.com/repository/docker/geontech/rh.rbdsdecoder)
-* [SinkSDDS](https://hub.docker.com/repository/docker/geontech/rh.sinksdds)
-* [sinksocket](https://hub.docker.com/repository/docker/geontech/rh.sinksocket)
-* [sourcesocket](https://hub.docker.com/repository/docker/geontech/rh.sourcesocket)
-* [TuneFilterDecimate](https://hub.docker.com/repository/docker/geontech/rh.tunefilterdecimate)
-* [ComponentHost]() (Includes DataConverter and SourceSDDS by default)
+* [HardLimit](https://hub.docker.com/r/geontech/rh.hardlimit)
+* [SigGen](https://hub.docker.com/r/geontech/rh.siggen)
+* [agc](https://hub.docker.com/r/geontech/rh.agc)
+* [AmFmPmBasebandDemod](https://hub.docker.com/r/geontech/rh.amfmpmbasebanddemod)
+* [ArbitraryRateResampler](https://hub.docker.com/r/geontech/rh.arbitraryrateresampler)
+* [autocorrelate](https://hub.docker.com/r/geontech/rh.autocorrelate)
+* [fastfilter](https://hub.docker.com/r/geontech/rh.fastfilter)
+* [fcalc](https://hub.docker.com/r/geontech/rh.fcalc)
+* [FileWriter](https://hub.docker.com/r/geontech/rh.filewriter)
+* [psd](https://hub.docker.com/r/geontech/rh.psd)
+* [psk_soft](https://hub.docker.com/r/geontech/rh.psk_soft)
+* [RBDSDecoder](https://hub.docker.com/r/geontech/rh.rbdsdecoder)
+* [SinkSDDS](https://hub.docker.com/r/geontech/rh.sinksdds)
+* [sinksocket](https://hub.docker.com/r/geontech/rh.sinksocket)
+* [sourcesocket](https://hub.docker.com/r/geontech/rh.sourcesocket)
+* [TuneFilterDecimate](https://hub.docker.com/r/geontech/rh.tunefilterdecimate)
+* [ComponentHost](https://hub.docker.com/r/geontech/rh.componenthost) (Includes DataConverter and SourceSDDS by default)
 
 Read on if you'd like to build your own REDHAWK Component images.
 
@@ -135,4 +135,4 @@ A user-defined Component is a Component that the user made in REDHAWK themselves
 make custom CUSTOM=[CUSTOM]
 ```
 
-Also, please note that the SharedLibrary Custom components need to be made in REDHAWK 2.2.1 if you want to use them with the Component Host container provided. If a SharedLibrary component needs a different version of REDHAWK then the Component Host needs to be rebuilt with that REDHAWK version as its base.
+Also, please note that the SharedLibrary Custom components need to be made in REDHAWK 2.2.1 if you want to use them with the Component Host container provided, as the pre-built ComponetHost image is based on Docker ReDHAWK Ubuntu 2.2.1. If a SharedLibrary component needs a different version of REDHAWK then the Component Host needs to be rebuilt with that REDHAWK version as its base.
