@@ -59,13 +59,14 @@ This will create an image called `rh.hardlimit` (in all lowercase). Check this b
 Because of the nature of the Ubuntu-based builds, they are currently unable to compile Java components. If you need a Java implementation of a Component, build it with `docker-redhawk` instead of `docker-ubuntu-redhawk.`
 
 ### Component Host and Shared Library from GitHub
-Shared Library type components all require a Component Host to run on. Therefore, a Component Host image is needed for the components to be baked into. The following command run from inside the either the `centos` or `ubuntu` directory will build the Component Host image. This command *does not*, however, load any specific libraries needed for specific share library components.
+Shared Library type components all require a Component Host to run on. Therefore, a Component Host image is needed for the components to be baked into. The following command run from inside the `ubuntu` directory will build the Component Host image (although the centos 7 ComponentHost dockerfile builds, it does not currently work at runtime). Building the ComponentHost image *does not*, however, load any specific libraries needed for specific shared library components.
 
 ```bash
+cd ./ubuntu
 make componentHost
 ```
 
-Now that a base Component Host image with no Shared Library components loaded on has been built, the user can now extend this docker image and add Shared Library components. Note that the Shared Library components must be loaded onto the rh.componentHost image made in the previous step instead of being their own separate images. This is because the Shared Library components are launched onto a Component Host namespace and need to be where the Component Host is to do so.
+Now that a base Component Host image with no Shared Library components loaded into it has been built, the user can now extend this docker image and add Shared Library components. Note that the Shared Library components must be loaded onto the rh.componentHost image made in the previous step instead of being their own separate images. This is because the Shared Library components are launched onto a Component Host namespace and need to be where the Component Host is to do so.
 
 There are two Makefile targets to include a Shared Library component into a Component Host image:
 1. sharedRhAsset
@@ -80,13 +81,13 @@ make sharedRhAsset ASSET=[ASSET]
 ```bash
 make sharedRhAsset ASSET=DataConverter
 ```
-Use the syntax below to add your custom REDHAWK SharedLibrary Component into your ComponentHost image. **Prior to running this command**, copy your Component's directory to `.[centos or ubuntu]/Dockerfiles/rhSharedLibrary/components` because the Dockerfile attempts to copy your component from this path into the image.
+Use the syntax below to add your custom REDHAWK SharedLibrary Component into your ComponentHost image. **Prior to running this command**, copy your Component's directory to `./ ubuntu/Dockerfiles/rhSharedLibrary/components` because the Dockerfile attempts to copy your component from this path into the image.
 
 ```bash
 make sharedCustom CUSTOM=[CUSTOM]
 ```
 
-To add *multiple* SharedLibrary type components into your ComponentHost, space separate your SharedLibraries and also include the dependencies in each SharedLibrary:
+To add *multiple* SharedLibrary type components into your ComponentHost, space separate your SharedLibraries. Also be sure to include the runtime dependencies for each SharedLibrary identified in their spd.xml files:
 
 Add DataConverter and SourceSDDS, with dependencies, to empty ComponentHost image:
 ```bash
