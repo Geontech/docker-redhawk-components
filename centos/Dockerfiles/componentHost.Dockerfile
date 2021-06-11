@@ -13,7 +13,6 @@ FROM geontech/redhawk-runtime as runner
 COPY --from=builder /root/core-framework /root/core-framework
 WORKDIR /etc/redhawk/logging
 COPY logrotate.redhawk /etc/redhawk/logging/
-COPY ComponentHost.spd.xml /var/redhawk/sdr/dom/mgr/rh/ComponentHost/ComponentHost.spd.xml
 RUN cp /root/core-framework/redhawk/src/testing/sdr/dom/mgr/logging.properties /etc/redhawk/logging
 WORKDIR /root/rpms
 RUN yum install -y automake libtool gcc-c++ boost-devel libuuid-devel numactl-devel log4cxx-devel yaml-cpp-devel && \
