@@ -86,15 +86,11 @@ Use the syntax below to add your custom REDHAWK SharedLibrary Component into you
 make sharedCustom CUSTOM=[CUSTOM]
 ```
 
-To add *multiple* SharedLibrary type components into your ComponentHost, chain consecutive builds together and add one Component at a time:
+To add *multiple* SharedLibrary type components into your ComponentHost, space separate your SharedLibraries and also include the dependencies in each SharedLibrary:
 
-Add DataConverter to empty ComponentHost image:
+Add DataConverter and SourceSDDS, with dependencies, to empty ComponentHost image:
 ```bash
-make sharedRhAsset ASSET=DataConverter
-```
-Then add SourceSDDS to the previous image that already has DataConverter in it:
-```bash
-make sharedRhAsset ASSET=SourceSDDS
+make sharedRhAsset ASSET="dsp fftlib DataConverter SourceSDDS"
 ```
 
 You can verify that your Components have been installed by running a container and verifying that the Components are in $SDRROOT:

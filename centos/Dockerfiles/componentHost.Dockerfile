@@ -23,7 +23,6 @@ RUN yum install -y automake libtool gcc-c++ boost-devel libuuid-devel numactl-de
     /bin/bash -lc "make install" && \
     cd /root/core-framework/redhawk/src/control/sdr/ComponentHost && \
     /bin/bash -lc "make install" && \
-    yum remove -y automake gcc-c++ && \
     yum clean all && rm -rf /var/cache/yum && \
     rm -rf /root/core-framework && \
     chown root:redhawk /var/redhawk/sdr/dom/mgr/rh/ComponentHost/ComponentHost.spd.xml && \
