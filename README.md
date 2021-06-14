@@ -98,35 +98,55 @@ You can verify that your Components have been installed by running a container a
 ```bash
 docker container run --rm -it rh.componenthost /bin/bash
 ls -l /var/redhawk/sdr/dom/components/rh/
-````
+```
 
 ### GNURadio Component
-Make sure that you have GNU Radio installed so you can edit the *.grc flowgraph.
+Building a GNURadio Component is a multi-step process:
+1. Install package dependencies
+2. Install [gr-redhawk-integration](https://github.com/Geontech/gr-redhawk_integration.git)
+3. Modify your GNURadio Component's flowgraph (*.grc) file to become compatible with [gr-component_converter.](https://github.com/Geontech/gr-component_converter)
+4. Convert your flowgraph file into a REDHAWK Component using gr-component_coverter
+5. dockerize
+6. Installing to your SDRROOT
+
+#### Install the package dependencies
 
 ```bash
 sudo yum install -y gnuradio gnuradio-devel 
 ```
 
-Git clone [gr-redhawk-integration](https://github.com/Geontech/gr-redhawk_integration.git)
+#### Install gr-redhawk-integration
 
 ```bash
 sudo yum group install -y "Development Tools" && sudo yum install -y cmake cppunit cppunit-devel
+git clone https://github.com/Geontech/gr-redhawk_integration.git
 cd gr-redhawk-integration
 ```
-Then follow the build directions for "Source of Package Manager Installations" from [gr-redhawk-integration](https://github.com/Geontech/gr-redhawk_integration.git)
+Then follow the build directions for "Source or Package Manager Installations" from [gr-redhawk-integration](https://github.com/Geontech/gr-redhawk_integration.git)
+
+### Modify your GNURadio Component's Flowgraph
+You can find sample *grc files in the [gr-component_converter repo.](https://github.com/Geontech/gr-component_converter/tree/master/test)
+
+Either grab a sample or grab your own ready *.grc file and move it into this project at `[centos or ubuntu]/Dockerfiles/tmp-custom/<yourfile>.grc`
 
 Open your *.grc file in gnuradio-companion and modify it to use `rh_source_bulkio` and `rh_sink_bulkio`
 ```bash
 PYTHONPATH=/usr/local/lib64/python2.7/site-packages/ gnuradio-companion [centos or ubuntu]/Dockerfiles/tmp-custom/basic.grc
 ```
 
-GNURadio components need to be converted to REDHAWK Components and then are able to be dockerized like any other REDHAWK component. First, copy the `*.grc` flowgraph into `./Dockerfiles/tmp-custom`. Then run the following makefile command to dockerize the GNU script:
+#### Convert your flowgraph into a REDHAWK Component
+GNURadio components need to be converted to REDHAWK Components and then are able to be dockerized like any other REDHAWK component. First, ensure the `*.grc` flowgraph is in `[centos or ubuntu]/Dockerfiles/tmp-custom`. The Makefile in this project run the conversion step for you, assuming your *.grc has been put in the correct path first.
+
+#### Dockerize 
+Then run the following makefile command to dockerize the GNU script:
 
 ```bash
 make gnuradio GRC=[GRC]
 ```
+Where GRC is the name of your *.grc file without the .grc suffix.
 
-Once it is dockerized, go to `./Dockerfiles/tmp-custom/[GRC]` and run `./build.sh install`. This will install the component to the native host environemnt. Now edit `$SDRROOT/dom/components/[GRC]/[GRC].spd.xml` to use the code type `Container` rather than `Executable`.
+#### Install to SDRROOT
+Once it is dockerized, go to `./Dockerfiles/tmp-custom/[GRC]` and run `./build.sh install`. This will install the component to the native host's SDRROOT. Now edit `$SDRROOT/dom/components/[GRC]/[GRC].spd.xml` to use the code type `Container` rather than `Executable`.
 
 ### User Defined REDHAWK Component
 A user-defined Component is a Component that the user made in REDHAWK themselves. These components can be made in any version of REDHAWK so long as the version of REDHAWK that is used for the base in the image matches where the Component was made. This is the only Dockerfile that is provided that requires `geontech/redhawk-development` and `geontech/redhawk-runtime`. The Dockerfile provided here is just an example and supports REDHAWK Components that were made on REDHAWK 2.2.8.
