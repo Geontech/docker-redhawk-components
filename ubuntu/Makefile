@@ -31,7 +31,7 @@ checkCompsExist:
 	@for i in ${CUSTOM}; do if [ ! -d "./Dockerfiles/rhSharedLibrary/components/$${i}" ]; then echo "$${i} does not exist!"; exit 1; fi; done
 
 gnuradio:
-	./gnuradio-redhawk/gr-component_converter/converter/run.py ./Dockerfiles/tmpCustom/${GRC}.grc ./Dockerfiles/tmpCustom
+	../gr-component_converter/converter/run.py ./Dockerfiles/tmpCustom/${GRC}.grc ./Dockerfiles/tmpCustom
 	$(call IMAGE_BUILD,$@,gnu_asset,${GRC},${GRC})
 
 custom:
