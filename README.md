@@ -107,13 +107,13 @@ Make sure that you have GNU Radio installed so you can edit the *.grc flowgraph.
 sudo yum install -y gnuradio gnuradio-devel 
 ```
 
-Git clone [gr-redhawk-integration].(https://github.com/Geontech/gr-redhawk_integration.git)
+Git clone [gr-redhawk-integration](https://github.com/Geontech/gr-redhawk_integration.git)
 
 ```bash
 sudo yum group install -y "Development Tools" && sudo yum install -y cmake cppunit cppunit-devel
 cd gr-redhawk-integration
 ```
-Then follow the build directions for "Source of Package Manager Installations" from [gr-redhawk-integration](https://curiosity.office.geontech.com/screaming_goat/gr-redhawk_integration)
+Then follow the build directions for "Source of Package Manager Installations" from [gr-redhawk-integration](https://github.com/Geontech/gr-redhawk_integration.git)
 
 Open your *.grc file in gnuradio-companion and modify it to use `rh_source_bulkio` and `rh_sink_bulkio`
 ```bash

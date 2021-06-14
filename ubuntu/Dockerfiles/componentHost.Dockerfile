@@ -2,7 +2,7 @@ FROM geontech/redhawk-ubuntu-development as builder
 
 ARG repo_url=https://github.com/RedhawkSDR/core-framework.git
 ARG branch_or_tag=2.2.8
-RUN apt-get install -y git rpm && \
+RUN apt-get install -y git rpm libyaml-cpp-dev && \
     ln -s bash /bin/sh.bash && \
     mv /bin/sh.bash /bin/sh && \
     cd /root && git clone --depth=1 $repo_url && cd /root/core-framework && \
@@ -17,7 +17,7 @@ FROM geontech/redhawk-ubuntu-runtime as runner
 WORKDIR /root/rpms
 COPY --from=builder /root/core-framework /root/core-framework
 RUN apt-get update && \
-    apt-get install -y alien automake libtool libboost-filesystem-dev liblog4cxx-dev libboost-thread-dev libboost-regex-dev libcppunit-dev && \
+    apt-get install -y alien automake libtool libboost-filesystem-dev liblog4cxx-dev libboost-thread-dev libboost-regex-dev libcppunit-dev libyaml-cpp-dev && \
     cd /root/core-framework/redhawk/src/control/sdr/ComponentHost && \
     /bin/bash -lc "make install" && \
     rm -rf /root/core-framework && apt-get clean autoclean && apt-get autoremove --yes

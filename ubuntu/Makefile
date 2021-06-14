@@ -13,6 +13,14 @@ IMAGE_BUILD = docker build --rm \
 		&& \
 		docker tag $(call lc,$4):$(VERSION) $(call lc,$4):latest
 
+IMAGE_BUILD_2 = docker build --rm \
+		-f ./Dockerfiles/$1.Dockerfile \
+		--build-arg repo_url="$2" \
+        --build-arg branch_or_tag="$3" \
+		-t $(call lc,$4):$(VERSION) \
+		. && \
+		docker tag $(call lc,$4):$(VERSION) $(call lc,$4):latest
+
 checkCompHost:
 	@if [ "`docker image ls | awk '{ print $$1 }' | grep componenthost`" = "" ]; then echo "A componenthost image does not exist please first run 'make componentHost'"; exit 1; fi
 
@@ -22,8 +30,8 @@ checkDirectory:
 checkCompsExist:
 	@for i in ${CUSTOM}; do if [ ! -d "./Dockerfiles/rhSharedLibrary/components/$${i}" ]; then echo "$${i} does not exist!"; exit 1; fi; done
 
-gnuradio: 
-	../../sidecar/gnuradio-redhawk/gr-component_converter/converter/run.py ./Dockerfiles/tmpCustom/${GRC}.grc ./Dockerfiles/tmpCustom
+gnuradio:
+	./gnuradio-redhawk/gr-component_converter/converter/run.py ./Dockerfiles/tmpCustom/${GRC}.grc ./Dockerfiles/tmpCustom
 	$(call IMAGE_BUILD,$@,gnu_asset,${GRC},${GRC})
 
 custom:
@@ -35,8 +43,7 @@ rhAsset:
 	$(call IMAGE_BUILD,$@,rh_asset,${ASSET},rh.${ASSET})
 
 componentHost:
-	cp -rf ../../core-framework ./Dockerfiles/rhSharedLibrary/root/ && cd ./Dockerfiles/rhSharedLibrary/root/core-framework/redhawk/src && make distclean
-	$(call IMAGE_BUILD,$@,this,componentHost,rh.componentHost)
+	$(call IMAGE_BUILD_2,$@,${repo_url},${branch_or_tag},rh.$@)
 
 sharedCustom: checkCompHost checkDirectory checkCompsExist
 	$(call IMAGE_BUILD,$@,shared_asset,${CUSTOM},sharedmakefile)
