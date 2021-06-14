@@ -66,6 +66,12 @@ cd ./ubuntu
 make componentHost
 ```
 
+The componentHost's Dockerfile has default arguments set for the repo URL and branch of that repo to use as the source for core-framework to pull down and build ComponentHost from. You can override those values like so:
+
+```bash
+make componentHost repo_url='https://<YourUsername>:<YourPassword>@host/of/core-framework.git' branch_or_tag=2.2.9
+```
+
 Now that a base Component Host image with no Shared Library components loaded into it has been built, the user can now extend this docker image and add Shared Library components. Note that the Shared Library components must be loaded onto the rh.componentHost image made in the previous step instead of being their own separate images. This is because the Shared Library components are launched onto a Component Host namespace and need to be where the Component Host is to do so.
 
 There are two Makefile targets to include a Shared Library component into a Component Host image:
