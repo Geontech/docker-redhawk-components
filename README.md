@@ -125,14 +125,18 @@ cd gr-redhawk-integration
 Then follow the build directions for "Source or Package Manager Installations" from [gr-redhawk-integration](https://github.com/Geontech/gr-redhawk_integration.git)
 
 ### Modify your GNURadio Component's Flowgraph
-You can find sample *grc files in the [gr-component_converter repo.](https://github.com/Geontech/gr-component_converter/tree/master/test)
+You can find sample *.grc files in the [gr-component_converter repo.](https://github.com/Geontech/gr-component_converter/tree/master/test)
 
 Either grab a sample or grab your own ready *.grc file and move it into this project at `ubuntu/Dockerfiles/tmp-custom/<yourfile>.grc`
 
 Open your *.grc file in gnuradio-companion and modify it to use `rh_source_bulkio` and `rh_sink_bulkio`
 ```bash
-PYTHONPATH=/usr/local/lib64/python2.7/site-packages/ gnuradio-companion ./ubuntu/Dockerfiles/tmp-custom/basic.grc
+PYTHONPATH=/usr/local/lib64/python2.7/site-packages/ gnuradio-companion
 ```
+ Then File > Open and browse to your path where the grc file lives and open it `ubuntu/Dockerfiles/tmp-custom/double_ref.grc`
+ 
+ Your flowgraph should resemble the following picture below when configured correctly (double_ref flowgraph used as an example):
+ ![Double Ref Example](Double_ref_Example.png)
 
 #### Convert your flowgraph into a REDHAWK Component
 GNURadio components need to be converted to REDHAWK Components and then are able to be dockerized like any other REDHAWK component. First, ensure the `*.grc` flowgraph is in `./ubuntu/Dockerfiles/tmp-custom`. The Makefile in this project run the conversion step for you, assuming your *.grc has been put in the correct path first.
