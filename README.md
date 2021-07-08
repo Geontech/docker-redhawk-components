@@ -1,8 +1,8 @@
 # Docker REDHAWK Components
 
-REDHAWK core-framework release 2.2.8 supports the ability to run waveforms on container orchestration clusters. This capability is provided by cluster-specific plugins. In order to use those cluster plugins, Docker images of REDHAWK components are needed. When using core-framework's default Docker plugin, these images should be present on your machine; when using cluster technology plugins, they should be in the registry referenced in the configuration file ($OSSIEHOME/cluster.cfg).
+REDHAWK core-framework release 2.2.8 supports the ability to run waveforms on container orchestration clusters. This capability is provided by cluster-specific plugins. In order to use those cluster plugins, Docker images of REDHAWK components are needed. When using core-framework's Docker plugin, these images should be present on your machine; when using cluster technology plugins, they should be in the registry referenced in the configuration file ($OSSIEHOME/cluster.cfg).
 
-the user needs to change the `code type` and `entrypoint` in order to correctly indicate to REDHAWK that they will be using a containerized version of the component. The `code type` should be changed the "CONTAINER" and the entrypoint to "<executable>::<container-name>", where the "container-name" does not contain the registry portion of the image name. The registry is instead put into the configuration file so that the registry and container name can be concatenated together later in the code.
+The user needs to change the `code type` and `entrypoint` in order to correctly indicate to REDHAWK that they will be using a containerized version of the component. The `code type` should be changed to "Container" and the entrypoint to "<executable>::<container-name>", where the "container-name" does not contain the registry portion or tag of the image name. The registry and tag are instead put into the configuration file at `$OSSIEHOME/cluster.cfg` so that they all can be concatenated together later in the code.
 
 These changes to the spd file detailed above can be made to the spd file before compilation and install, or, if it is a build-in REDHAWK component, can be changed directly in SDRROOT (`sudo vi $SDRROOT/dom/components/rh/[ASSET]/[ASSET].spd.xml`).
 
@@ -87,7 +87,7 @@ make sharedRhAsset ASSET=[ASSET]
 ```bash
 make sharedRhAsset ASSET=SourceSDDS
 ```
-Use the syntax below to add your custom REDHAWK SharedLibrary Component into your ComponentHost image. **Prior to running this command**, copy your Component's directory to `./ ubuntu/Dockerfiles/rhSharedLibrary/components` because the Dockerfile attempts to copy your component from this path into the image.
+Use the syntax below to add your custom REDHAWK SharedLibrary Component into your ComponentHost image. **Prior to running this command**, copy your Component's directory to `./ubuntu/Dockerfiles/rhSharedLibrary/components` because the Dockerfile attempts to copy your component from this path into the image.
 
 ```bash
 make sharedCustom CUSTOM=[CUSTOM]
@@ -165,4 +165,4 @@ A user-defined Component is a Component that the user made in REDHAWK themselves
 make custom CUSTOM=[CUSTOM]
 ```
 
-Also, please note that the SharedLibrary Custom components need to be made in REDHAWK 2.2.1 if you want to use them with the Component Host container provided, as the pre-built ComponetHost image is based on Docker ReDHAWK Ubuntu 2.2.1. If a SharedLibrary component needs a different version of REDHAWK then the Component Host needs to be rebuilt with that REDHAWK version as its base.
+Also, please note that the SharedLibrary Custom components need to be made in REDHAWK 2.2.1 if you want to use them with the Component Host container provided, as the pre-built ComponetHost image is based on Docker REDHAWK Ubuntu 2.2.1. If a SharedLibrary component needs a different version of REDHAWK then the Component Host needs to be rebuilt with that REDHAWK version as its base.
